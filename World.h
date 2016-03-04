@@ -5,14 +5,15 @@
 //  Created by HUJI Computer Graphics course staff, 2013.
 //
 
-#ifndef __ex0__Model__
-#define __ex0__Model__
+#ifndef __WORLD__
+#define __WORLD__
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp> // for glm::value_ptr
 #include <vector>
 #include "Camera.h"
+#include "Object.h"
 
 using namespace glm;
 
@@ -23,7 +24,7 @@ using namespace glm;
 #include <GL/gl.h>
 #endif
 
-class Model {
+class World {
 	
     GLuint _vao, _vbo, _ibo;
 
@@ -36,6 +37,10 @@ class Model {
     // View port frame:
     float _width, _height, _offsetX, _offsetY;
 	
+	// WVP matrices
+	mat4 _projection;
+	mat4 _world;
+
 	// Mesh grid
 	static const size_t _gridSize = 30;
 	static const size_t _triangleResolution = 2;
@@ -57,18 +62,26 @@ class Model {
 
 	void _createTrianglesGrid(std::vector<glm::vec4>& vertices, std::vector<GLubyte>& indices);
 
+	// Scene objects
+	std::vector<Object*> _objects;
+	void _createSceneObjects();
+
+	void _drawWorld(const mat4& view);
+
+
  public:
-    Model();
-    virtual ~Model();
+    World();
+    virtual ~World();
     void init();
     void draw();
     void resize(int width, int height);	
 
 	// Keys handling
-	void moveForward() { _camera->moveForward(); }
-	void moveBackward() { _camera->moveBackward(); }
-	void turnLeft() { _camera->turnLeft(); }
-	void turnRight() { _camera->turnRight(); }
+	void moveForwardKeyPressed();
+	void moveBackwardKeyPressed();
+	void turnLeftKeyPressed();
+	void turnRightKeyPressed();
+	void crouchKeyPressed(const bool& isCouch);
 };
 
 #endif /* defined(__ex0__Model__) */

@@ -18,7 +18,7 @@
 
 using namespace glm;
 
-#include "Model.h"
+#include "World.h"
 #include "ShaderIO.h"
 
 #include <iostream>
@@ -66,6 +66,9 @@ void windowResize(int width, int height);
 /** keyboard callback  */
 void keyboard(unsigned char key, int x, int y);
 
+/** keyboard up callback */
+void keyboardUp(unsigned char key, int x, int y);
+
 /** mouse click callback */
 void mouse(int button, int state, int x, int y) ;
 
@@ -83,7 +86,7 @@ bool    g_startAnimation = false;
 bool    g_duringAnimation = false;
 
 // A global variable for our model (a better practice would be to use a singletone that holds all model):
-Model _model;
+World _world;
 
 
 /** main function */
@@ -122,12 +125,13 @@ int main(int argc, char* argv[])
     glutDisplayFunc(display) ;
     glutReshapeFunc(windowResize) ;
     glutKeyboardFunc(keyboard);
+	glutKeyboardUpFunc(keyboardUp);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutTimerFunc(100, timer, 0);   // uint millis int value
 	
     // Init anything that can be done once and for all:
-    _model.init();
+    _world.init();
 
     // Set clear color to black:
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -144,7 +148,7 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Let the model to draw itself...
-    _model.draw();
+    _world.draw();
 	
     // Swap those buffers so someone will actually see the results... //
     glutSwapBuffers();
@@ -154,7 +158,7 @@ void display(void)
 void windowResize(int w, int h)
 {
     // Update model to fit the new resolution
-    _model.resize(w, h);
+    _world.resize(w, h);
     
     // set the new viewport //
     glViewport(0, 0, w, h);
@@ -182,16 +186,16 @@ void keyboard(unsigned char key, int x, int y)
     switch(lower_key)
     {
 		case KEY_FORWARD:
-			_model.moveForward();
+			_world.moveForwardKeyPressed();
 			break;
 		case KEY_BACKWARD:
-			_model.moveBackward();
+			_world.moveBackwardKeyPressed();
 			break;
 		case KEY_TURN_LEFT:
-			_model.turnLeft();
+			_world.turnLeftKeyPressed();
 			break;
 		case KEY_TURN_RIGHT:
-			_model.turnRight();
+			_world.turnRightKeyPressed();
 			break;
 // 		case KEY_LEAN_LEFT:
 // 			_model.leanLeft();
@@ -199,9 +203,10 @@ void keyboard(unsigned char key, int x, int y)
 // 		case KEY_LEAN_RIGHT:
 // 			_model.leanRight();
 // 			break;
-// 		case KEY_CROUCH:
-// 			_model.crouch();
-// 			break;
+		case KEY_CROUCH:
+			_world.crouchKeyPressed(true);
+
+			break;
 // 		case KEY_JUMP:
 // 			_model.jump();
 // 			break;
@@ -234,6 +239,25 @@ void keyboard(unsigned char key, int x, int y)
     }
 	glutPostRedisplay();
     return;
+}
+
+void keyboardUp(unsigned char key, int x, int y)
+{
+	unsigned int lower_key = tolower(key);
+
+	switch (lower_key)
+	{
+	case KEY_CROUCH:
+	{
+		_world.crouchKeyPressed(false);
+	}
+	break;
+	default:
+		std::cerr << "Key " << lower_key << " undefined\n";
+		break;
+	}
+	glutPostRedisplay();
+	return;
 }
 
 /********************************************************************
@@ -290,14 +314,13 @@ void timer(int value) {
     }
     
     glutTimerFunc(25, timer, ++value);   // uint millis int value
-    
+
     if (g_duringAnimation) {
         float t = (float)value / (float)animationDurationInFrames;
         if (t > 1) {
             g_duringAnimation = false;
             return;
         }
-        
         glutPostRedisplay();
     }
 }

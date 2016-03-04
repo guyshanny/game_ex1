@@ -26,23 +26,24 @@ using namespace glm;
 class Camera
 {
 private:
-	vec3 _dir;
-	vec3 _pos;
+	vec3 _direction;
+	vec3 _position;
 	vec3 _up;
+	vec3 _initialDirection;
+	vec3 _initialPosition;
 
-	mat4 _world;
 	mat4 _view;
-	mat4 _projection;
-	mat4 _wvp;
 
 	// Moving camera properties
 	float _movingSpeed;
 	float _turningSpeed;
 	float _angle;
-	float _windowBoundary;
+	float _crouchSpeed;
 
 	Camera();
 	static Camera* _instance;
+
+	void Camera::_calculateViewMatrix();
 
 public:
 	static Camera* instance()
@@ -55,16 +56,15 @@ public:
 	}
 	void init(const float& angle, const float& windowBoundary);
 
-	void Camera::calculateWVP();
-	mat4 getWVP() { return _wvp; }
+	// Getters & setters
+	mat4 getViewMatrix() { return _view; }
 
-	// Update camera functions
-	void moveForward();
-	void moveBackward();
-	void turnLeft();
-	void turnRight();
-
-
+	// Key functions
+	mat4 moveForwardKeyPressed();
+	mat4 moveBackwardKeyPressed();
+	mat4 turnLeftKeyPressed();
+	mat4 turnRightKeyPressed();
+	mat4 crouchKeyPressed(const bool& isCrouch);
 };
 
 #endif
