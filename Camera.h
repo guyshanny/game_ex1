@@ -66,6 +66,7 @@ public:
 	mat4 turnRightKeyPressed();
 	mat4 strafeRightKeyPressed();
 	mat4 strafeLeftKeyPressed();
+	mat4 resetKeyPressed();
 	mat4 crouchKeyPressed(const bool& isCrouch);
 };
 

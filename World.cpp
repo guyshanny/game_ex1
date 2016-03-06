@@ -27,8 +27,7 @@
 
 
 World::World() :
-    _vao(0), _vbo(0), _ibo(0), _cameraPosition(0.0f, 0.0f, 0.0f), 
-	_cameraDirection(0.0f, 0.0f, -1.0f), _yAngle(0.0f), _movingSpeed(0.1f), _world(1.0f)
+    _vao(0), _vbo(0), _ibo(0), _yAngle(0.0f), _movingSpeed(0.1f), _world(1.0f)
 {
 	_projection = perspective(5.0f, 1.0f, 0.1f, 100.0f);
 }
@@ -233,6 +232,13 @@ void World::strafeRightKeyPressed()
 void World::strafeLeftKeyPressed()
 {
 	_camera->strafeLeftKeyPressed();
+}
+
+void World::resetKeyPressed()
+{
+	_world = mat4(1.0f);
+	_projection = perspective(5.0f, 1.0f, 0.1f, 100.0f);
+	_camera->resetKeyPressed();
 }
 
 void World::crouchKeyPressed(const bool& isCouch = true)

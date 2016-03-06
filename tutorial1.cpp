@@ -209,20 +209,20 @@ void keyboard(unsigned char key, int x, int y)
 			_world.crouchKeyPressed(true);
 			break;
 // 		case KEY_JUMP:
-// 			_model.jump();
+// 			_world.jump();
 // 			break;
 // 		case KEY_ZOOM:
-// 			_model.zoom();
+// 			_world.zoom();
 // 			break;
-// 		case KEY_RESET:
-// 			_model.reset();
-// 			break;
+ 		case KEY_RESET:
+			_world.resetKeyPressed();
+ 			break;
 //		case KEY_RELOAD:
 //			// Reload the shading programs of the object
 //			// For use in a future exercise
 //			break;
 // 		case KEY_WIREFRAME:
-// 			_model.toggle_polygon_mode();
+// 			_world.toggle_polygon_mode();
 // 			break;
 // 		case KEY_ANIMATE:
 // 			if (!g_duringAnimation) {

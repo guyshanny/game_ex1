@@ -55,8 +55,6 @@ class World {
 
 	// Camera variables
 	Camera* _camera;
-	glm::vec3 _cameraPosition;
-	glm::vec3 _cameraDirection;
 	float _yAngle;
 	float _movingSpeed;
 
@@ -84,6 +82,7 @@ class World {
 	void strafeRightKeyPressed();
 	void strafeLeftKeyPressed();
 	void crouchKeyPressed(const bool& isCouch);
+	void resetKeyPressed();
 };
 
 #endif /* defined(__ex0__Model__) */

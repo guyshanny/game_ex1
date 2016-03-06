@@ -126,4 +126,12 @@ mat4 Camera::strafeLeftKeyPressed()
 	return _view;
 }
 
+mat4 Camera::resetKeyPressed()
+{
+	_direction = vec3(0.0f, 0.0f, 1.0f);
+	_position = vec3(0.0f, -3.0f, -10.0f);
+	_calculateViewMatrix();
+	return _view;
+}
+
 #pragma endregion
