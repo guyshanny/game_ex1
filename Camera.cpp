@@ -101,8 +101,3 @@ mat4 Camera::crouchKeyPressed(const bool& isCrouch = true)
 }
 
 #pragma endregion
-
-
-
-
-

@@ -5,35 +5,23 @@ mat4 Player::update(const Movements & movement)
 	switch (movement)
 	{
 		case FORWARD:
-		{
 			return _moveForward();
-		}
 			break;
 		case BACKWARD:
-		{
 			return _moveBackward();
-		}
-		break;
+			break;
 		case LEFT:
-		{
 			return _turnLeft();
-		}
-		break;
+			break;
 		case RIGHT:
-		{
 			return _turnRight();
-		}
-		break;
+			break;
 		case CROUCH:
-		{
 			return _crouch();
-		}
-		break;
-	default:
-	{
-		return _toWordMatrix;
-	}
-		break;
+			break;
+		default:
+			return _toWordMatrix;
+			break;
 	}
 }
 

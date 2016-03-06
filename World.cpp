@@ -7,6 +7,7 @@
 
 #include "ShaderIO.h"
 #include "World.h"
+#include "Tree.h"
 
 #include <GL/glew.h>
 #ifdef __APPLE__
@@ -94,6 +95,12 @@ void World::init()
 		// Unbind vertex array:
 		glBindVertexArray(0);
 	}
+
+	// Drawing scene objects
+	for (Object* object : _objects)
+	{
+		object->init();
+	}
 }
 
 void World::_createTrianglesGrid(std::vector<glm::vec4>& vertices, std::vector<GLubyte>& indices)
@@ -148,7 +155,10 @@ void World::_createTrianglesGrid(std::vector<glm::vec4>& vertices, std::vector<G
 
 void World::_createSceneObjects()
 {
-// 	_objects.push_back(new Player());
+	_objects.push_back((Object*)(new Tree(vec3(0.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(5.f, 0.f, 5.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(-7.f, 0.f, -10.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(-8.f, 0.f, 9.f), vec3(0.f, -1.f, 0.f))));
 }
 #pragma endregion
 
@@ -171,7 +181,7 @@ void World::_drawWorld(const mat4& view)
 	// Set the program to be used in subsequent lines:
 	glUseProgram(programManager::sharedInstance().programWithID("default"));
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Also try using GL_FILL and GL_POINT
+	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); // GL_FILL/GL_POINT/GL_LINE
 
 	mat4 wvp = _projection * view * _world;
 

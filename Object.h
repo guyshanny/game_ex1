@@ -23,6 +23,7 @@ public:
 	virtual ~Object() {};
 	
 	virtual void draw(const mat4& projection, const mat4& view) = 0;
+	virtual void init() = 0;
 
 	vec3 getPosition() { return _position; }
 	vec3 getDirection() { return _direction; }

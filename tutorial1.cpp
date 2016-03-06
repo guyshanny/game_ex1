@@ -205,7 +205,6 @@ void keyboard(unsigned char key, int x, int y)
 // 			break;
 		case KEY_CROUCH:
 			_world.crouchKeyPressed(true);
-
 			break;
 // 		case KEY_JUMP:
 // 			_model.jump();
@@ -216,10 +215,10 @@ void keyboard(unsigned char key, int x, int y)
 // 		case KEY_RESET:
 // 			_model.reset();
 // 			break;
-		case KEY_RELOAD:
-			// Reload the shading programs of the object
-			// For use in a future exercise
-			break;
+//		case KEY_RELOAD:
+//			// Reload the shading programs of the object
+//			// For use in a future exercise
+//			break;
 // 		case KEY_WIREFRAME:
 // 			_model.toggle_polygon_mode();
 // 			break;
@@ -227,7 +226,7 @@ void keyboard(unsigned char key, int x, int y)
 // 			if (!g_duringAnimation) {
 // 				g_startAnimation = true;
 // 			}
-			break;
+//			break;
 // 		case KEY_QUIT:
 		case KEY_ESC:
 			// Terminate the program:
@@ -247,14 +246,12 @@ void keyboardUp(unsigned char key, int x, int y)
 
 	switch (lower_key)
 	{
-	case KEY_CROUCH:
-	{
-		_world.crouchKeyPressed(false);
-	}
-	break;
-	default:
-		std::cerr << "Key " << lower_key << " undefined\n";
-		break;
+		case KEY_CROUCH:
+			_world.crouchKeyPressed(false);
+			break;
+		default:
+			//std::cerr << "Key " << lower_key << " undefined\n";
+			break;
 	}
 	glutPostRedisplay();
 	return;
