@@ -47,7 +47,7 @@ std::string createString(int numIterations, std::string base, std::vector<std::s
 void Tree::createVertices(std::vector<glm::vec4>& vertices, int numIterations, std::string base, std::vector<std::string> rules)
 {
 	std::string str = createString(numIterations, base, rules);
-	std::cout << str << std::endl;
+	//std::cout << str << std::endl;
 	std::stack<vec3> posStack;
 	std::stack<vec3> dirStack;
 	vec3 curPos = _position;

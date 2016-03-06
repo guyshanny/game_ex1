@@ -81,6 +81,8 @@ class World {
 	void moveBackwardKeyPressed();
 	void turnLeftKeyPressed();
 	void turnRightKeyPressed();
+	void strafeRightKeyPressed();
+	void strafeLeftKeyPressed();
 	void crouchKeyPressed(const bool& isCouch);
 };
 

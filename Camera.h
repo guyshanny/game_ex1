@@ -64,6 +64,8 @@ public:
 	mat4 moveBackwardKeyPressed();
 	mat4 turnLeftKeyPressed();
 	mat4 turnRightKeyPressed();
+	mat4 strafeRightKeyPressed();
+	mat4 strafeLeftKeyPressed();
 	mat4 crouchKeyPressed(const bool& isCrouch);
 };
 

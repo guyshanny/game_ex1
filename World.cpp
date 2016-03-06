@@ -181,11 +181,11 @@ void World::_drawWorld(const mat4& view)
 	// Set the program to be used in subsequent lines:
 	glUseProgram(programManager::sharedInstance().programWithID("default"));
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); // GL_FILL/GL_POINT/GL_LINE
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_FILL/GL_POINT/GL_LINE
 
 	mat4 wvp = _projection * view * _world;
 
-											   // pass the wvp to vertex shader
+	// pass the wvp to vertex shader
 	glUniformMatrix4fv(_gpuWVP, 1, GL_FALSE, value_ptr(wvp));
 
 	// pass the model color to fragment shader   
@@ -223,6 +223,16 @@ void World::turnLeftKeyPressed()
 void World::turnRightKeyPressed()
 {
 	_camera->turnRightKeyPressed();
+}
+
+void World::strafeRightKeyPressed()
+{
+	_camera->strafeRightKeyPressed();
+}
+
+void World::strafeLeftKeyPressed()
+{
+	_camera->strafeLeftKeyPressed();
 }
 
 void World::crouchKeyPressed(const bool& isCouch = true)

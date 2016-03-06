@@ -40,7 +40,7 @@ using namespace glm;
 /** Key definitions */
 
 // #define KEY_ANIMATE         ('a') // Key used to start animation              //
-#define KEY_ESC            ('\e') // Key used to terminate the program - ESC  //
+#define KEY_ESC            (27) // Key used to terminate the program - ESC  //
 // #define KEY_QUIT            ('\e') // Key used to terminate the program        //
 #define KEY_RESET           ('r') // Key used to reset the applied TX's	      //
 #define KEY_RELOAD          ('l') // Key used to reload the shaders 	      //
@@ -51,8 +51,10 @@ using namespace glm;
 #define KEY_TURN_RIGHT		('d') // Key turn right
 
 // Additionals
-#define KEY_LEAN_LEFT		('q') // Key to move left
-#define KEY_LEAN_RIGHT		('e') // Key to move right
+//#define KEY_LEAN_LEFT		('q') // Key to lean left
+//#define KEY_LEAN_RIGHT		('e') // Key to lean right
+#define KEY_MOVE_LEFT		('q') // Key to move left
+#define KEY_MOVE_RIGHT		('e') // Key to move right
 #define KEY_CROUCH			('z') // Key to crouch
 #define KEY_JUMP			(' ') // Key jump
 // #define KEY_ZOOM			('z') // Key zoom
@@ -197,12 +199,12 @@ void keyboard(unsigned char key, int x, int y)
 		case KEY_TURN_RIGHT:
 			_world.turnRightKeyPressed();
 			break;
-// 		case KEY_LEAN_LEFT:
-// 			_model.leanLeft();
-// 			break;
-// 		case KEY_LEAN_RIGHT:
-// 			_model.leanRight();
-// 			break;
+		case KEY_MOVE_LEFT:
+			_world.strafeLeftKeyPressed();
+ 			break;
+		case KEY_MOVE_RIGHT:
+			_world.strafeRightKeyPressed();
+ 			break;
 		case KEY_CROUCH:
 			_world.crouchKeyPressed(true);
 			break;

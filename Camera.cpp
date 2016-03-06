@@ -100,4 +100,30 @@ mat4 Camera::crouchKeyPressed(const bool& isCrouch = true)
 	return _view;
 }
 
+mat4 Camera::strafeRightKeyPressed()
+{
+	vec3 dirNormal = glm::normalize(glm::cross(_direction, _up));
+	vec3 tmpPos = _position - dirNormal * _movingSpeed;
+	if (glm::abs(tmpPos.x) >= WINDOW_BOUNDARY.x || glm::abs(tmpPos.z) >= WINDOW_BOUNDARY.z)
+	{
+		return EYE_MATRIX;
+	}
+	_position -= dirNormal * _movingSpeed;
+	_calculateViewMatrix();
+	return _view;
+}
+
+mat4 Camera::strafeLeftKeyPressed()
+{
+	vec3 dirNormal = glm::normalize(glm::cross(_direction, _up));
+	vec3 tmpPos = _position + dirNormal * _movingSpeed;
+	if (glm::abs(tmpPos.x) >= WINDOW_BOUNDARY.x || glm::abs(tmpPos.z) >= WINDOW_BOUNDARY.z)
+	{
+		return EYE_MATRIX;
+	}
+	_position += dirNormal * _movingSpeed;
+	_calculateViewMatrix();
+	return _view;
+}
+
 #pragma endregion
