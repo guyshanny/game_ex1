@@ -29,7 +29,7 @@ public:
 		CROUCH,
 	};
 
-	Player() : Object(), _movingSpeed(0.1f), _angle(M_PI) {}
+	Player() : Object(), _movingSpeed(0.1f), _angle((float)M_PI) {}
 	Player(const float& movingSpeed, 
 		   const float& initialAngle) : Object(), _movingSpeed(movingSpeed), _angle(initialAngle) {}
 

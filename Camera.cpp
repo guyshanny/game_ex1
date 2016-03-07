@@ -10,7 +10,8 @@ Camera::Camera() : _direction(0.0f, 0.0f, 1.0f),
 				   _initialDirection(_direction),
 				   _movingSpeed(0.1f),
 				   _turningSpeed(0.1f),
-				   _crouchSpeed(0.1f)
+				   _crouchSpeed(0.1f),
+				   _heightBoundary(2.0f)
 {
 }
 
@@ -90,7 +91,7 @@ mat4 Camera::crouchKeyPressed(const bool& isCrouch = true)
 	// Crouch
 	else
 	{
-		if (abs(_position.y) <= (WINDOW_BOUNDARY.y + 2.0f))
+		if (abs(_position.y) <= _heightBoundary)
 		{
 			return EYE_MATRIX;
 		}

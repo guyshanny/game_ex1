@@ -98,6 +98,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -107,6 +108,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />

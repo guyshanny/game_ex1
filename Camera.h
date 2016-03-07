@@ -39,6 +39,7 @@ private:
 	float _turningSpeed;
 	float _angle;
 	float _crouchSpeed;
+	float _heightBoundary;
 
 	Camera();
 	static Camera* _instance;
