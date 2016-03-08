@@ -50,14 +50,13 @@ using namespace glm;
 #define KEY_TURN_LEFT		('a') // Key turn left
 #define KEY_TURN_RIGHT		('d') // Key turn right
 
-// Additionals
-//#define KEY_LEAN_LEFT		('q') // Key to lean left
-//#define KEY_LEAN_RIGHT		('e') // Key to lean right
+// Extras
 #define KEY_MOVE_LEFT		('q') // Key to move left
 #define KEY_MOVE_RIGHT		('e') // Key to move right
-#define KEY_CROUCH			('z') // Key to crouch
+#define KEY_CROUCH			('c') // Key to crouch
 #define KEY_JUMP			(' ') // Key jump
-// #define KEY_ZOOM			('z') // Key zoom
+#define KEY_ZOOM			('z') // Key zoom
+#define KEY_TELEPORT		('t') // Key teleport
 
 /** display callback */
 void display(void);
@@ -211,12 +210,15 @@ void keyboard(unsigned char key, int x, int y)
 		case KEY_JUMP:
 			_world.jumpKeyPressed(true);
 			break;
-// 		case KEY_ZOOM:
-// 			_world.zoom();
-// 			break;
+		case KEY_ZOOM:
+			_world.zoomKeyPressed(true);
+			break;
  		case KEY_RESET:
 			_world.resetKeyPressed();
  			break;
+		case KEY_TELEPORT:
+			_world.teleportKeyPressed();
+			break;
 //		case KEY_RELOAD:
 //			// Reload the shading programs of the object
 //			// For use in a future exercise
@@ -253,6 +255,9 @@ void keyboardUp(unsigned char key, int x, int y)
 			break;
 		case KEY_JUMP:
 			_world.jumpKeyPressed(false);
+			break;
+		case KEY_ZOOM:
+			_world.zoomKeyPressed(false);
 			break;
 		default:
 			//std::cerr << "Key " << lower_key << " undefined\n";

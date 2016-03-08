@@ -248,6 +248,16 @@ void World::jumpKeyPressed(const bool& isJump)
 	_camera->jump(isJump);
 }
 
+void World::zoomKeyPressed(const bool & isZoomIn)
+{
+	_camera->zoom(isZoomIn);
+}
+
+void World::teleportKeyPressed()
+{
+	_camera->teleport();
+}
+
 void World::crouchKeyPressed(const bool& isCrouch)
 {
 	_camera->crouch(isCrouch);

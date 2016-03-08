@@ -8,7 +8,9 @@ Camera::Camera() : _direction(0.0f, 0.0f, 1.0f),
 				   _up(0.0f, 1.0f, 0.0f),
 				   _initialPosition(_position),
 				   _initialDirection(_direction),
-				   _speed(0.1f)
+				   _speed(0.1f),
+				   _zoomSavedPosition(0.0f),
+				   _isZoomSavedPosition(false)
 {
 }
 
@@ -21,6 +23,9 @@ void Camera::init(const float & angle, const float & windowBoundary)
 
 void Camera::update()
 {
+	/************************************************************************/
+	/* All regular controls                                                 */
+	/************************************************************************/
 	if (_commands[Commands::MOVE_FORWARD]) { _moveForwardLogic(); }
 	if (_commands[Commands::MOVE_BACKWARD]) { _moveBackwardLogic(); }
 	if (_commands[Commands::TURN_RIGHT]) { _turnRightLogic(); }
@@ -28,7 +33,11 @@ void Camera::update()
 	if (_commands[Commands::STRAFE_RIGHT]) { _strafeRightLogic(); }
 	if (_commands[Commands::STRAFE_LEFT]) { _strafeLeftLogic(); }
 	if (_commands[Commands::RESET]) { _resetLogic(); }
+	if (_commands[Commands::TELEPORT]) { _teleportLogic(); }
 
+	/************************************************************************/
+	/* Smooth controls                                                      */
+	/************************************************************************/
 	// Forward crouch
 	if (_commands[Commands::CROUCH] && false == _commands[Commands::CROUCH_RETURN])
 	{
@@ -63,8 +72,25 @@ void Camera::update()
 		_commands[Commands::JUMP] = false;
 		_commands[Commands::JUMP_RETURN] = false;
 	}
-}
 
+	// Zoom in
+	if (_commands[Commands::ZOOM_IN] && false == _commands[Commands::ZOOM_OUT])
+	{
+		_zoomLogic(true);
+		glutPostRedisplay();
+	}
+	// Zoom out
+	else if (false == _commands[Commands::ZOOM_IN] && _commands[Commands::ZOOM_OUT])
+	{
+		_zoomLogic(false);
+		glutPostRedisplay();
+	}
+	else
+	{
+		_commands[Commands::ZOOM_IN] = false;
+		_commands[Commands::ZOOM_OUT] = false;
+	}
+}
 
 mat4 Camera::_calculateViewMatrix()
 {
@@ -106,6 +132,22 @@ void Camera::jump(const bool& isJump)
 	}
 }
 
+void Camera::zoom(const bool & isZoomIn)
+{
+	if (isZoomIn)
+	{
+		_commands[Commands::ZOOM_IN] = true;
+	}
+	else
+	{
+		_commands[Commands::ZOOM_OUT] = true;
+	}
+}
+
+void Camera::teleport()
+{
+	_commands[Commands::TELEPORT] = true;
+}
 
 void Camera::_moveForwardLogic()
 {
@@ -191,6 +233,7 @@ void Camera::_jumpLogic(const bool& isJump)
 		if (tmpPosition.y < WINDOW_BOUNDARY.y)
 		{
 			_commands[Commands::JUMP] = false;
+			_commands[Commands::JUMP_RETURN] = true;
 			return;
 		}
 		_position = tmpPosition;
@@ -206,6 +249,58 @@ void Camera::_jumpLogic(const bool& isJump)
 		}
 		_position = tmpPosition;
 	}
+	_calculateViewMatrix();
+}
+
+void Camera::_zoomLogic(const bool & isZoomIn)
+{
+	// Zoom in
+	if (isZoomIn)
+	{
+		_commands[Commands::ZOOM_IN] = false;
+
+		if (false == _isZoomSavedPosition)
+		{
+			_zoomSavedPosition = _position;
+			_isZoomSavedPosition = true;
+		}
+		
+		vec3 tmpPosition = _position + _direction * (_speed*6);
+		float xDiff = glm::abs(glm::abs(tmpPosition.x) - glm::abs(_zoomSavedPosition.x));
+		float zDiff = glm::abs(glm::abs(tmpPosition.z) - glm::abs(_zoomSavedPosition.z));
+		if ((xDiff > 5.0f) || (zDiff > 5.0f) || 
+			(glm::abs(tmpPosition.x) >= WINDOW_BOUNDARY.x) || (glm::abs(tmpPosition.z) >= WINDOW_BOUNDARY.z))
+		{
+			return;
+		}
+		_position = tmpPosition;
+	}
+	// Zoom out
+	else
+	{
+		vec3 tmpPosition = _position - _direction * (_speed/10);
+		float xDiff = glm::abs(glm::abs(tmpPosition.x) - glm::abs(_zoomSavedPosition.x));
+		float zDiff = glm::abs(glm::abs(tmpPosition.z) - glm::abs(_zoomSavedPosition.z));
+		if (xDiff < 0.1f && zDiff < 0.1f)
+		{
+			_isZoomSavedPosition = false;
+			_commands[Commands::ZOOM_OUT] = false;
+			return;
+		}
+		_position = tmpPosition;
+	}
+	_calculateViewMatrix();
+}
+
+void Camera::_teleportLogic()
+{
+	_commands[Commands::TELEPORT] = false;
+
+	// Linear random
+	//		((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+	_position = vec3(((float(rand()) / float(RAND_MAX)) * (WINDOW_BOUNDARY.x + WINDOW_BOUNDARY.x)) - WINDOW_BOUNDARY.x,
+					_position.y,
+					((float(rand()) / float(RAND_MAX)) * (WINDOW_BOUNDARY.z + WINDOW_BOUNDARY.z)) - WINDOW_BOUNDARY.z);
 	_calculateViewMatrix();
 }
 

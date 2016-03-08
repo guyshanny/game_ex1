@@ -84,6 +84,8 @@ class World {
 	void crouchKeyPressed(const bool& isCrouch);
 	void resetKeyPressed();
 	void jumpKeyPressed(const bool& isJump);
+	void zoomKeyPressed(const bool& isZoomIn);
+	void teleportKeyPressed();
 };
 
 #endif /* defined(__ex0__Model__) */

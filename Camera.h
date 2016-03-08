@@ -36,15 +36,18 @@ public:
 		STRAFE_LEFT,
 		STRAFE_RIGHT,
 		RESET,
+		TELEPORT,
 
 		// Continuous events
 		CROUCH,
 		CROUCH_RETURN,
 		JUMP,
 		JUMP_RETURN,
+		ZOOM_IN,
+		ZOOM_OUT,
 
 		// Number of commands - 0 base
-		NUM_OF_COMMANDS = 11
+		NUM_OF_COMMANDS = 14
 	};
 
 	static Camera* instance()
@@ -68,6 +71,8 @@ public:
 	void reset(); 
 	void crouch(const bool& isCrouch);
 	void jump(const bool& isJump);
+	void zoom(const bool& isZoomIn);
+	void teleport();
 
 	// Getters & setters
 	mat4 getViewMatrix() { return _view; }
@@ -85,6 +90,10 @@ private:
 	float _speed;
 	float _angle;
 
+	// Zoom handling
+	vec3 _zoomSavedPosition;
+	bool _isZoomSavedPosition;
+
 	// Commands
 	bool _commands[Camera::Commands::NUM_OF_COMMANDS] = { false };
 	void _moveForwardLogic();
@@ -96,6 +105,8 @@ private:
 	void _resetLogic();
 	void _crouchLogic(const bool& isCrouch);
 	void _jumpLogic(const bool& isJump);
+	void _zoomLogic(const bool& isZoomIn);
+	void _teleportLogic();
 
 	Camera();
 	static Camera* _instance;
