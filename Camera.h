@@ -73,6 +73,8 @@ public:
 	void jump(const bool& isJump);
 	void zoom(const bool& isZoomIn);
 	void teleport();
+	void fastMove(const bool& isShiftPressed);
+
 
 	// Getters & setters
 	mat4 getViewMatrix() { return _view; }
@@ -88,6 +90,7 @@ private:
 
 	// Moving camera properties
 	float _speed;
+	float _initialSpeed;
 	float _angle;
 
 	// Zoom handling

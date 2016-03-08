@@ -58,6 +58,7 @@ using namespace glm;
 #define KEY_ZOOM			('z') // Key zoom
 #define KEY_TELEPORT		('t') // Key teleport
 
+
 /** display callback */
 void display(void);
 
@@ -183,7 +184,18 @@ void windowResize(int w, int h)
 void keyboard(unsigned char key, int x, int y)
 {
     unsigned int lower_key = tolower(key);
-	
+
+	int isShiftPressed = glutGetModifiers();
+
+	if (GLUT_ACTIVE_SHIFT == isShiftPressed)
+	{
+		_world.shiftKeyPressed(true);
+	}
+	else
+	{
+		_world.shiftKeyPressed(false);
+	}
+
     switch(lower_key)
     {
 		case KEY_FORWARD:

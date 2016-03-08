@@ -86,6 +86,7 @@ class World {
 	void jumpKeyPressed(const bool& isJump);
 	void zoomKeyPressed(const bool& isZoomIn);
 	void teleportKeyPressed();
+	void shiftKeyPressed(const bool& isShiftPressed);
 };
 
 #endif /* defined(__ex0__Model__) */

@@ -10,7 +10,8 @@ Camera::Camera() : _direction(0.0f, 0.0f, 1.0f),
 				   _initialDirection(_direction),
 				   _speed(0.1f),
 				   _zoomSavedPosition(0.0f),
-				   _isZoomSavedPosition(false)
+				   _isZoomSavedPosition(false),
+				   _initialSpeed(_speed)
 {
 }
 
@@ -147,6 +148,21 @@ void Camera::zoom(const bool & isZoomIn)
 void Camera::teleport()
 {
 	_commands[Commands::TELEPORT] = true;
+}
+
+void Camera::fastMove(const bool & isShiftPressed)
+{
+	if (isShiftPressed)
+	{
+		if (_speed <= _initialSpeed)
+		{
+			_speed *= 4;
+		}
+	}
+	else
+	{
+		_speed = _initialSpeed;
+	}
 }
 
 void Camera::_moveForwardLogic()

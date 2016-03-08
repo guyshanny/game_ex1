@@ -258,6 +258,11 @@ void World::teleportKeyPressed()
 	_camera->teleport();
 }
 
+void World::shiftKeyPressed(const bool& isShiftPressed)
+{
+	_camera->fastMove(isShiftPressed);
+}
+
 void World::crouchKeyPressed(const bool& isCrouch)
 {
 	_camera->crouch(isCrouch);
