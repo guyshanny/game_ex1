@@ -40,7 +40,7 @@ using namespace glm;
 /** Key definitions */
 
 // #define KEY_ANIMATE         ('a') // Key used to start animation              //
-#define KEY_ESC            (27) // Key used to terminate the program - ESC  //
+#define KEY_ESC				(27) // Key used to terminate the program - ESC  //
 // #define KEY_QUIT            ('\e') // Key used to terminate the program        //
 #define KEY_RESET           ('r') // Key used to reset the applied TX's	      //
 #define KEY_RELOAD          ('l') // Key used to reload the shaders 	      //

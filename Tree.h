@@ -12,6 +12,7 @@ class Tree : Object
 private:
 	int _numOfVertices;
 	const std::string _branch = "F";
+	static const std::string rules[];
 	void createVertices(std::vector<glm::vec4>& vertices, int numIterations, std::string base, std::vector<std::string> rules);
 public:
 	Tree(const vec3 & pos, const vec3 & dir) : Object(pos, dir, mat4(0.f), 0, 0) {}

@@ -4,6 +4,11 @@
 #include <iostream>
 
 #define ANGLE 25.0f
+#define RULES_NUM 10
+
+const std::string Tree::rules[RULES_NUM] = { "F[&F][&/F][&\\F]", "F[^F][^+F][^-F]", "F[^\\F][^/F][&-F]", "F[^F][&F][&+F]",
+"F[^/F][^\\F][&+F]", "F[&F][&-F][&+F]", "F[&F][^F][\\F]", "F[-F][&F][\F]",
+"F[\\F][\\-F][/+F]", "F[\\+F][&-F][^/F]" };
 
 void Tree::draw(const mat4& projection, const mat4& view)
 {
@@ -47,7 +52,7 @@ std::string createString(int numIterations, std::string base, std::vector<std::s
 void Tree::createVertices(std::vector<glm::vec4>& vertices, int numIterations, std::string base, std::vector<std::string> rules)
 {
 	std::string str = createString(numIterations, base, rules);
-	//std::cout << str << std::endl;
+	//std::cout << str << std::endl; // DEBUG
 	std::stack<vec3> posStack;
 	std::stack<vec3> dirStack;
 	vec3 curPos = _position;
@@ -120,11 +125,11 @@ void Tree::init()
 	GLuint program = programManager::sharedInstance().programWithID("default");
 
 	std::vector<glm::vec4> vertices;
-	std::vector<std::string> rules;
-	rules.push_back("F[&F][&/F][&\\F]");
-	rules.push_back("F[^F][^+F][^-F]");
-	rules.push_back("F[^\\F][^/F][&-F]");
-	createVertices(vertices, 4, "F", rules);
+	std::vector<std::string> tree_rules;
+	tree_rules.push_back(Tree::rules[rand() % RULES_NUM]);
+	tree_rules.push_back(Tree::rules[rand() % RULES_NUM]);
+	tree_rules.push_back(Tree::rules[rand() % RULES_NUM]);
+	createVertices(vertices, 4, _branch, tree_rules);
 	_numOfVertices = vertices.size();
 
 	// Create and bind the object's Vertex Array Object:
