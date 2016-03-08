@@ -6,9 +6,16 @@
 #define ANGLE 25.0f
 #define RULES_NUM 10
 
-const std::string Tree::rules[RULES_NUM] = { "F[&F][&/F][&\\F]", "F[^F][^+F][^-F]", "F[^\\F][^/F][&-F]", "F[^F][&F][&+F]",
-"F[^/F][^\\F][&+F]", "F[&F][&-F][&+F]", "F[&F][^F][\\F]", "F[-F][&F][\F]",
-"F[\\F][\\-F][/+F]", "F[\\+F][&-F][^/F]" };
+const std::string Tree::rules[RULES_NUM] = {"F[&F][&/F][&\\F]", 
+										    "F[^F][^+F][^-F]", 
+											"F[^\\F][^/F][&-F]", 
+											"F[^F][&F][&+F]",
+											"F[^/F][^\\F][&+F]", 
+											"F[&F][&-F][&+F]", 
+											"F[&F][^F][\\F]", 
+											"F[-F][&F][\\F]",
+											"F[\\F][\\-F][/+F]", 
+											"F[\\+F][&-F][^/F]" };
 
 void Tree::draw(const mat4& projection, const mat4& view)
 {
