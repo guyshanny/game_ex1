@@ -7,6 +7,7 @@
 
 #include "ShaderIO.h"
 #include "World.h"
+#include "Tree.h"
 
 #include <GL/glew.h>
 #ifdef __APPLE__
@@ -26,8 +27,7 @@
 
 
 World::World() :
-    _vao(0), _vbo(0), _ibo(0), _cameraPosition(0.0f, 0.0f, 0.0f), 
-	_cameraDirection(0.0f, 0.0f, -1.0f), _yAngle(0.0f), _movingSpeed(0.1f), _world(1.0f)
+    _vao(0), _vbo(0), _ibo(0), _yAngle(0.0f), _movingSpeed(0.1f), _world(1.0f)
 {
 	_projection = perspective(5.0f, 1.0f, 0.1f, 100.0f);
 }
@@ -56,7 +56,7 @@ void World::init()
 	GLuint program = programManager::sharedInstance().programWithID("default");
 
 	_camera = Camera::instance();
-	_camera->init(M_PI, _gridSize / 2.0);
+	_camera->init((float)M_PI, _gridSize / 2.0);
 	_createSceneObjects();
 
 	// Obtain uniform variable handles:
@@ -93,6 +93,12 @@ void World::init()
 
 		// Unbind vertex array:
 		glBindVertexArray(0);
+	}
+
+	// Drawing scene objects
+	for (Object* object : _objects)
+	{
+		object->init();
 	}
 }
 
@@ -148,13 +154,17 @@ void World::_createTrianglesGrid(std::vector<glm::vec4>& vertices, std::vector<G
 
 void World::_createSceneObjects()
 {
-// 	_objects.push_back(new Player());
+	_objects.push_back((Object*)(new Tree(vec3(0.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(5.f, 0.f, 5.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(-7.f, 0.f, -10.f), vec3(0.f, -1.f, 0.f))));
+	_objects.push_back((Object*)(new Tree(vec3(-8.f, 0.f, 9.f), vec3(0.f, -1.f, 0.f))));
 }
 #pragma endregion
 
 #pragma region Draw
 void World::draw()
 {
+	_camera->update();
 	mat4 view = _camera->getViewMatrix();
 	// Drawing the world
 	_drawWorld(view);
@@ -162,6 +172,7 @@ void World::draw()
 	// Drawing scene objects
 	for (Object* object : _objects)
 	{
+		object->update();
 		object->draw(_projection, view);
 	}
 }
@@ -171,11 +182,11 @@ void World::_drawWorld(const mat4& view)
 	// Set the program to be used in subsequent lines:
 	glUseProgram(programManager::sharedInstance().programWithID("default"));
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Also try using GL_FILL and GL_POINT
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_FILL/GL_POINT/GL_LINE
 
 	mat4 wvp = _projection * view * _world;
 
-											   // pass the wvp to vertex shader
+	// pass the wvp to vertex shader
 	glUniformMatrix4fv(_gpuWVP, 1, GL_FALSE, value_ptr(wvp));
 
 	// pass the model color to fragment shader   
@@ -197,27 +208,49 @@ void World::_drawWorld(const mat4& view)
 #pragma region KeysHandling
 void World::moveForwardKeyPressed()
 {
-	_camera->moveForwardKeyPressed();
+	_camera->moveForward();
 }
 
 void World::moveBackwardKeyPressed()
 {
-	_camera->moveBackwardKeyPressed();
+	_camera->moveBackward();
 }
 
 void World::turnLeftKeyPressed()
 {
-	_camera->turnLeftKeyPressed();
+	_camera->turnLeft();
 }
 
 void World::turnRightKeyPressed()
 {
-	_camera->turnRightKeyPressed();
+	_camera->turnRight();
 }
 
-void World::crouchKeyPressed(const bool& isCouch = true)
+void World::strafeRightKeyPressed()
 {
-	_camera->crouchKeyPressed(isCouch);
+	_camera->strafeRight();
+}
+
+void World::strafeLeftKeyPressed()
+{
+	_camera->strafeLeft();
+}
+
+void World::resetKeyPressed()
+{
+	_world = mat4(1.0f);
+	_projection = perspective(5.0f, 1.0f, 0.1f, 100.0f);
+	_camera->reset();
+}
+
+void World::jumpKeyPressed(const bool& isJump)
+{
+	_camera->jump(isJump);
+}
+
+void World::crouchKeyPressed(const bool& isCrouch)
+{
+	_camera->crouch(isCrouch);
 }
 #pragma endregion
 
